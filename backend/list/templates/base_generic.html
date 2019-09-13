@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+
+      <title></title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-grid.css">
+
+
+
+      <!-- Добавление дополнительного статического CSS файла -->
+      
+
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet">
+      <!-- UIkit CSS -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/css/uikit.min.css" />
+
+      {% load staticfiles %}
+      <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+      {% block head %}
+
+      {% endblock %}
+
+      
+
+    <body>
+        <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+            <div class="uk-navbar-left">
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active"><a href="/">KNN site</a></li>
+                    <li><a href="#">О нас</a></li>
+                </ul>
+            </div>
+            <div class="uk-navbar-right">
+                <ul class="uk-navbar-nav">
+                    <li>             
+                        {% if user.is_authenticated %}
+                        <a href="{{ user.get_absolute_url }}" style="display:inline;"> {{ user.username }}</a>
+                        <a href="{% url 'logout' %}" style="display:inline;"> ВЫЙТИ </a>
+                        {% else %}
+                        <a href="{% url 'login' %}">ВОЙТИ</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        {% block title %}
+
+        {% endblock %}
+
+        {% block content %}
+
+        {% endblock %}
+
+        <div class="container button-box" style="">
+          {% block buttons %}
+
+          {% endblock %}
+        </div>
+
+        {% block script %}
+
+        {% endblock %}
+
+        <!-- UIkit JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/js/uikit.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/js/uikit-icons.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> 
+    </body>
+</html>

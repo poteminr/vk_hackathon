@@ -1,0 +1,7 @@
+.post-card-link {
+    color: #000000;
+}
+.post-card-link:hover {
+    color: #008bfd;
+    text-decoration: none;
+}

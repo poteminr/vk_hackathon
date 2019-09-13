@@ -1,0 +1,62 @@
+{% extends "base_generic.html" %}
+
+{% block head %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/login_form.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container uk-width-1-1 uk-position-center login-form">
+        <form method="post">
+
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <div class="uk-alert-danger" uk-alert>
+                        <a class="uk-alert-close" uk-close></a>
+                        <p>{{ error }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <fieldset class="uk-fieldset ">
+
+                {% csrf_token %}
+
+                
+                Имя пользователя
+                <div class="uk-margin ">
+                    
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon" uk-icon="icon: user"></span>
+                        {{ form.username }}
+                        {% for err in form.username.errors %}
+                            <div class="alert alert-danger mt-3" role="alert">
+                                {{err}}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                Пароль
+                <div class="uk-margin ">
+                    
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                        {{ form.password }}
+                        {% for err in form.password.errors %}
+                            <div class="alert alert-danger mt-3" role="alert">
+                                {{err}}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                
+                <button type="submit" class = "uk-button uk-button-danger uk-button-large uk-width-1-1 uk-margin-small-bottom" > ВОЙТИ </button>
+            </fieldset>
+
+        </form>
+    </div>
+
+{% endblock %}

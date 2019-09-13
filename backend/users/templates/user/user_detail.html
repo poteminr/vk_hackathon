@@ -1,0 +1,71 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+<div class="container" style="width: 70vw">
+<div class="uk-child-width-1-2@m" uk-grid>
+    <div>
+        <div class="uk-card uk-card-primary" style="background-color:{{ object.get_color }}">
+            <div class="uk-card-media-top uk-cover-container uk-width-1-1">
+                <img src="{{ object.photo.url }}" alt="" uk-cover>
+                <canvas width="600" height="400"></canvas>
+            </div>
+            <div class="uk-card-body">
+                <h3 class="uk-card-title">{{object.name}}</h3>
+                <p>{{object.additionalinfo}}</p>
+                <p>Имя пользователя: {{object.username}}</p>
+                <p>почта: {{object.email}}</p>
+                <p>Средняя оценка: {{object.get_rating}}</p>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="uk-card uk-card-default">
+            <div class="uk-card-body">
+                
+                {% if object.reviews.count == 0 %}
+                    <h3 class="uk-card-title">Отзывы по этому пользователю отсутствуют</h3>
+                    
+                {% else%}
+                    {% for rew in object.reviews.all %}
+                        <h3 class="uk-card-title">Отзывы по этому пользователю</h3>
+
+                        <article class="uk-comment">
+                            <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
+                                <div class="uk-width-auto">
+                                    <img class="uk-comment-avatar" src="{{rew.author.photo.url}}" width="80" height="80" alt="">
+                                </div>
+                                <div class="uk-width-expand">
+                                    <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="{{rew.author.get_absolute_url}}">{{rew.author.name}}</a></h4>
+                                    <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                                        <li><a href="#">{{rew.how_long_ago}}</a></li>
+                                        <li><a href="#">Рейтинг: {{rew.rating}}</a></li>
+                                    </ul>
+                                </div>
+                            </header>
+                            <div class="uk-comment-body">
+                                <p>{{rew.text}}</p>
+                            </div>
+                        </article>
+
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+ 
+{% endblock %}
+
+{% block buttons %}
+
+{% if request.user.is_authenticated %}
+<a href="{{ object.get_review_url }}"  class="uk-button uk-button-default"> Написать комментарий</a>
+
+{% endif %}
+
+{% endblock %}

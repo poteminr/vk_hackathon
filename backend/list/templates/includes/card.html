@@ -1,0 +1,25 @@
+<div class="uk-card uk-card-default uk-grid-collapse uk-margin uk-card-large uk-card-hover post-card" uk-grid>
+    <div class="uk-card-media-left uk-cover-container uk-width-1-4">
+        <img src="{{post.image.url}}" alt="" uk-cover>
+        <canvas width="600" height="400"></canvas>
+    </div>
+    <div class="uk-card-body uk-width-1-2">
+
+        <div class="uk-width-expand">
+            <h3 class="uk-card-title uk-margin-remove-bottom"><a class="post-card-link" href="">{{ post.title | title}} </a></h3>
+            <p class="uk-text-meta uk-margin-remove-top">{{post.how_long_ago}}</p>
+        </div>
+        <p>{{ post.text }}</p>
+    </div>
+    <div class="container uk-width-1-4">
+        <div class="">
+            <div class="uk-margin-bottom">
+                <h5 class="uk-text-bolder ">{{ post.cost }} ₽/чac</h5>
+            </div>
+        </div>
+        
+
+    </div>
+</div>
+
+<br>

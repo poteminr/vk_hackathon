@@ -1,0 +1,32 @@
+{% extends "base_generic.html" %}
+
+{% block head %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/card.css' %}">
+{% endblock %}
+
+{% block title %}
+    <header class="d-flex flex-column align-items-center uk-margin-bottom uk-text-large">
+        <div class="uk-text-justify">
+            <h1 class="uk-text-uppercase">Список активных предложений</h1>
+        </div>
+    </header>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+
+        {% for post in posts %}
+            {% include 'includes/card.html' %}
+        {% endfor %}
+
+    </div>
+
+
+{% endblock %}
+
+
+{% block buttons %}
+
+{% endblock %}
