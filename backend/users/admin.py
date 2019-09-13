@@ -9,17 +9,17 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
-    list_display = ['username','verified', 'email']
-    list_filter = ('verified',)
+    list_display = ['username','is_local_admin', 'email']
+    list_filter = ('is_local_admin',)
 
 
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
-        ('Personal info', {'fields': ('name','additionalinfo','verified', 'photo')}),
+        ('Personal info', {'fields': ('name','additionalinfo','is_local_admin', 'photo')}),
     )
     add_fieldsets = (
-        (None, {'fields': ('username', 'email', 'password')}),
-        ('Personal info', {'fields': ('name','additionalinfo','verified', 'photo')}),
+        (None, {'fields': ('username', 'email', 'password1','password2')}),
+        ('Personal info', {'fields': ('name','additionalinfo','is_local_admin', 'photo')}),
     )
     
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin

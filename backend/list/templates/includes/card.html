@@ -7,19 +7,13 @@
 
         <div class="uk-width-expand">
             <h3 class="uk-card-title uk-margin-remove-bottom"><a class="post-card-link" href="">{{ post.title | title}} </a></h3>
-            <p class="uk-text-meta uk-margin-remove-top">{{post.how_long_ago}}</p>
+            <p class="uk-text-meta uk-margin-remove-top uk-margin-remove-bottom">{{post.how_long_ago}}</p>
         </div>
         <p>{{ post.text }}</p>
+        <p> Автор: <a href="{{post.employer.get_absolute_url}}">{{post.employer.name}}</a></p>
     </div>
-    <div class="container uk-width-1-4">
-        <div class="">
-            <div class="uk-margin-bottom">
-                <h5 class="uk-text-bolder ">{{ post.cost }} ₽/чac</h5>
-            </div>
-        </div>
-        
-
+    <div class="card-crud-buttons" style="position: absolute; top:73%; left:80%;">
+        <a class="uk-button uk-button-secondary" href="{{post.get_absolute_url}}">Подробнее</a>
     </div>
 </div>
-
 <br>

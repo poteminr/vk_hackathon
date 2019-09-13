@@ -1,0 +1,34 @@
+{% extends "base_generic.html" %}
+
+
+{% block title %}
+Обновление информации о пользователе
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form method="post" action="{{ obj.get_update_url }}" class="bg-light jumbotron">
+
+            {% csrf_token %}
+
+            {% for field in form %}
+                <p class="mt-1 mb-1">{{ field.label_tag }}</p>
+                {{ field }}
+                {% if field.help_text %}
+                  <small style="color: grey; display:block;">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                  <p style="color: red">{{ error }}</p>
+                {% endfor %}
+
+            {% endfor %}
+
+
+        <button type="submit" class="btn btn-primary myWide">Войти</button>
+    </form>
+</div> 
+
+
+
+
+{% endblock %}

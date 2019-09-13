@@ -2,7 +2,14 @@
     width: 10vw;
     height: 10vh;
     position: fixed;
-    top:85vh;
-    right:15vw;
+    top:80vh;
+    right:10vw;
   
   }
+.nav-button{
+    color: white;
+    background-color: rgb(9, 144, 255);
+    height: 10vh;
+    width: 10vh;
+    font-size: 10rem;
+}

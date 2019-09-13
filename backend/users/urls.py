@@ -6,7 +6,7 @@ from users.forms import LoginForm
 
 
 urlpatterns = [     
-    path('register/', views.RegisterView.as_view(), name='register'),
+    path('<int:id>/update', views.UpdateView.as_view(), name='user_update'),
     path('', include('django.contrib.auth.urls')),
     path('login', views.CustomLoginView.as_view() , name='login'),
     

@@ -20,7 +20,7 @@ class CustomUserCreationForm(UserCreationForm):
                 "name",
                 "email",
                 "additionalinfo",
-                "verified",
+                "is_local_admin",
                 "photo",
                 )
         
@@ -31,10 +31,11 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta(UserChangeForm.Meta):
         model = CustomUser
 
-        fields = UserCreationForm.Meta.fields + (
+        fields = (
+                "username",
+                "email",
                 "name",
                 "additionalinfo",
-                "verified",
                 "photo"
                 )
 
@@ -54,7 +55,7 @@ class ReviewForm(forms.ModelForm):
                 ]
         widgets = {
             "text":forms.Textarea(attrs = {'class' : 'uk-input', 'placeholder' : "Дополнительная информация"} ),
-            "rating":forms.widgets.NumberInput(attrs = {'class' : 'uk-input', 'placeholder' : "Введите оценку"} ), 
+            "rating":forms.widgets.NumberInput(attrs = {'class' : 'uk-range', 'type': 'range', 'value':'3','min':'0','max':'5','step':'1'} ), 
         }
     def save(self, *args, **kwargs):
         will_commited = kwargs.pop('commit', True)

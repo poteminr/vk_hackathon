@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+    {% csrf_token %}
 
     <div class="container uk-width-1-1 uk-position-center login-form">
         <form method="post">
@@ -20,10 +21,7 @@
             {% endif %}
 
             <fieldset class="uk-fieldset ">
-
                 {% csrf_token %}
-
-                
                 Имя пользователя
                 <div class="uk-margin ">
                     

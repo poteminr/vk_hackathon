@@ -39,7 +39,22 @@
                     <li>             
                         {% if user.is_authenticated %}
                         <a href="{{ user.get_absolute_url }}" style="display:inline;"> {{ user.username }}</a>
-                        <a href="{% url 'logout' %}" style="display:inline;"> ВЫЙТИ </a>
+                        
+
+                        <a class="" href="#modal-sections" style="display:inline;" uk-toggle>ВЫЙТИ</a>
+
+                        <div id="modal-sections" uk-modal>
+                            <div class="uk-modal-dialog">
+                                <button class="uk-modal-close-default" type="button" uk-close></button>
+                                <div class="uk-modal-header">
+                                    <h2 class="uk-modal-title">Вы действительно хотите выйти?</h2>
+                                </div>
+                                <div class="uk-modal-footer uk-text-right">
+                                    <button class="uk-button uk-button-default uk-modal-close" type="button">Нет</button>
+                                    <a href="{% url 'logout' %}" class="uk-button uk-button-primary" > Да </a>
+                                </div>
+                            </div>
+                        </div>
                         {% else %}
                         <a href="{% url 'login' %}">ВОЙТИ</a>
                         {% endif %}
@@ -47,9 +62,15 @@
                 </ul>
             </div>
         </nav>
-        {% block title %}
 
-        {% endblock %}
+        <header class="d-flex flex-column align-items-center uk-margin-bottom uk-text-large">
+                <div class="uk-text-justify">
+                    <h1 class="uk-text-uppercase">{% block title %}
+
+                            {% endblock %}</h1>
+                </div>
+        </header>
+        
 
         {% block content %}
 
@@ -61,13 +82,15 @@
           {% endblock %}
         </div>
 
-        {% block script %}
-
-        {% endblock %}
+        
 
         <!-- UIkit JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/js/uikit.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.2.0/js/uikit-icons.js"></script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> 
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        
+        {% block script %}
+
+        {% endblock %}
     </body>
 </html>

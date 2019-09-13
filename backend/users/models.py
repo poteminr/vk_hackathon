@@ -11,8 +11,9 @@ class CustomUser(AbstractUser):
 
     name = models.CharField(max_length=200, default="None")
     additionalinfo = models.TextField(blank=True, max_length=1000, help_text="Enter a Additional Information")
-    verified = models.BooleanField(default=False)
+    is_local_admin = models.BooleanField(default=False)
     date_reg = models.DateTimeField(auto_now_add=True)
+
     photo = models.ImageField(
         upload_to = rename_photo ,
         default = 'media/photos/no_photo.jpg'
@@ -20,6 +21,8 @@ class CustomUser(AbstractUser):
     
     def get_absolute_url(self):
         return reverse('user_detail', kwargs={"id": self.id})
+    def get_update_url(self):
+        return reverse('user_update', kwargs={"id": self.id})
 
     def get_rating(self):
         rating = 0
@@ -55,7 +58,7 @@ class Review(models.Model):
     author = models.ForeignKey(CustomUser, related_name = "created_reviews", on_delete=models.SET_NULL,null=True)
     rating = models.IntegerField(help_text="Рейтинг отзыва")
 
-    text = models.TextField(max_length=1000, help_text="Enter text", default="пустое")
+    text = models.TextField(max_length=1000, help_text="Enter text")
     
     created_date = models.DateTimeField(auto_now_add=True)
 

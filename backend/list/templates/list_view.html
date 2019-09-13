@@ -6,11 +6,7 @@
 {% endblock %}
 
 {% block title %}
-    <header class="d-flex flex-column align-items-center uk-margin-bottom uk-text-large">
-        <div class="uk-text-justify">
-            <h1 class="uk-text-uppercase">Список активных предложений</h1>
-        </div>
-    </header>
+    Список активных предложений
 {% endblock %}
 
 {% block content %}
@@ -28,5 +24,9 @@
 
 
 {% block buttons %}
+
+{% if user.is_local_admin or user.is_staff %}
+    <a href="{% url 'post_create' %}" class="uk-icon-button nav-button" uk-icon="icon: plus; ratio: 2">  </a>
+{% endif %}
 
 {% endblock %}

@@ -62,7 +62,10 @@ class Post(models.Model):
             return f"{sec} sec ago"
 
     def get_absolute_url(self):
-        return reverse('order_detail', kwargs={"slug": self.slug})
+        return reverse('post_detail', kwargs={"slug": self.slug})
+    def get_delete_url(self):
+        return reverse('post_delete', kwargs={"slug" : self.slug})
+
 
     def __str__(self):
         return self.title
