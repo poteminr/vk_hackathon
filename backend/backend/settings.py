@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-# from social_core.backends.vk import VKontakteOpenAPI
+# from social_core.pipeline.user import create_user
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +27,10 @@ SECRET_KEY = 'f^b-@a2!b1^$16$#!bq!fx8kox5e5rkf!oggslaad=5%y_av_%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["10.0.31.179"]
+ALLOWED_HOSTS = [
+    "10.0.31.179",
+    "172.20.10.2"
+    ]
 
 
 # Application definition
@@ -54,7 +58,7 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.vk.VKontakteOpenAPI',          # бекенд авторизации через ВКонтакте
+    # 'social_core.backends.vk.VKontakteOpenAPI',          # бекенд авторизации через ВКонтакте
     'social_core.backends.vk.VKOAuth2', 
     'django.contrib.auth.backends.ModelBackend', # бекенд классической аутентификации, чтобы работала авторизация через обычный логин и пароль
 )
@@ -154,16 +158,62 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'')
 
+SOCIAL_AUTH_PIPELINE = (
+    # Get the information we can about the user and return it in a simple
+    # format to create the user instance later. On some cases the details are
+    # already part of the auth response from the provider, but sometimes this
+    # could hit a provider API.
+    'social_core.pipeline.social_auth.social_details',
+
+    # Get the social uid from whichever service we're authing thru. The uid is
+    # the unique identifier of the given user in the provider.
+    'social_core.pipeline.social_auth.social_uid',
+
+    # Verifies that the current auth process is valid within the current
+    # project, this is where emails and domains whitelists are applied (if
+    # defined).
+    'social_core.pipeline.social_auth.auth_allowed',
+
+    # Checks if the current social-account is already associated in the site.
+    'social_core.pipeline.social_auth.social_user',
+
+    # Make up a username for this person, appends a random string at the end if
+    # there's any collision.
+    'social_core.pipeline.user.get_username',
+
+    # Send a validation email to the user to verify its email address.
+    # Disabled by default.
+    # 'social_core.pipeline.mail.mail_validation',
+
+    # Associates the current social details with another user account with
+    # a similar email address. Disabled by default.
+    # 'social_core.pipeline.social_auth.associate_by_email',
+
+    # Create a user account if we haven't found one yet.
+    'backend.custom_social_auth_pipeline.create_user',
+
+    # Create the record that associates the social account with the user.
+    'social_core.pipeline.social_auth.associate_user',
+
+    # Populate the extra_data field in the social record with the values
+    # specified by settings (and the default ones like access_token, etc).
+    'social_core.pipeline.social_auth.load_extra_data',
+
+    # Update the user record with any changed info from the auth service.
+    'social_core.pipeline.user.user_details',
+)
+
+
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-# SOCIAL_AUTH_VK_OPENAPI_APP_ID = "7134193"
-# SOCIAL_AUTH_VK_APP_KEY = "7134193"
+SOCIAL_AUTH_VK_OPENAPI_APP_ID = "7134225"
+SOCIAL_AUTH_VK_APP_KEY = "7134225"
 
-# SOCIAL_AUTH_VK_APP_SECRET = '0FQRBO9G9UBLGZvpN4nO'
-# SOCIAL_AUTH_VK_OPENAPI_APP_ID = "7134193"
+SOCIAL_AUTH_VK_APP_SECRET = 'QLDHpcMbOdnyqbqLH6oK'
+SOCIAL_AUTH_VK_OPENAPI_APP_ID = "7134225"
 
-SOCIAL_AUTH_VK_OAUTH2_KEY = '7134193'
-SOCIAL_AUTH_VK_OAUTH2_SECRET = '0FQRBO9G9UBLGZvpN4nO'
+SOCIAL_AUTH_VK_OAUTH2_KEY = '7134225'
+SOCIAL_AUTH_VK_OAUTH2_SECRET = 'QLDHpcMbOdnyqbqLH6oK'
 
 # SOCIAL_AUTH_VK_APP_USER_MODE = 2

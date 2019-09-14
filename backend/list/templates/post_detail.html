@@ -8,10 +8,10 @@
 <div class="container" style="width: 70vw">
 <div class="uk-child-width-1-2@m" uk-grid>
     <div>
-        <div class="uk-card uk-card-primary" style="background-color:{{ user_color }}">
-            {% if user == object %}
-                <div class="uk-card-badge uk-label" style="background-color:{{ user_color }}"> <a href="{{ object.get_update_url}}">ИЗМЕНИТЬ</a> </div>
-            {% endif %}
+        <div class="uk-card uk-card-primary">
+
+            <div class="uk-card-badge uk-label" > <a href="">ФОТОГРАФ | ОРГАНИЗАТОР</a> </div>
+
             <div class="uk-card-media-top uk-cover-container uk-width-1-1">
                 <img src="{{ object.image.url }}" alt="" uk-cover>
                 <canvas width="600" height="400"></canvas>

@@ -22,6 +22,24 @@ def posts_list(request):
     return render(request, "list_view.html", context={
         "posts": models.Post.objects.all() ,
     })
+def posts_clever_list(request):
+
+    user = request.user
+
+    if user.is_anonymous:
+        return redirect("/") 
+
+    def sort_function(post):
+
+        profile_info = [user.name, user.additionalinfo]
+
+        post_add = post.title
+
+        return post_add
+
+    return render(request, "list_view.html", context={
+        "posts": sorted(models.Post.objects.all(), key=sort_function, reverse=True),
+    })
 
 def post_detail(request, slug):
     template = "post_detail.html"
