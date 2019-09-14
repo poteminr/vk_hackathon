@@ -7,6 +7,18 @@ from django.http import HttpResponseForbidden
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from ML.get_metrics import calc_metrics
+from ML.text_prep import text_preproc
+import numpy as np
+
+
+def metrics_res(profile_info, ivent):
+    profile_info = [text_preproc(data) for data in profile_info]
+    ivent = text_preproc(ivent)
+    
+    metric = calc_metrics(profile_info, ivent)
+    
+    return metric
 
 from list import models, forms
 # Create your views here.
@@ -35,7 +47,7 @@ def posts_clever_list(request):
 
         post_add = post.title
 
-        return post_add
+        return metrics_res(profile_info, post_add)
 
     return render(request, "list_view.html", context={
         "posts": sorted(models.Post.objects.all(), key=sort_function, reverse=True),
