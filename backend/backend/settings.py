@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+# from social_core.backends.vk import VKontakteOpenAPI
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +26,7 @@ SECRET_KEY = 'f^b-@a2!b1^$16$#!bq!fx8kox5e5rkf!oggslaad=5%y_av_%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["10.0.31.179"]
 
 
 # Application definition
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
     'list',
     'users.apps.UsersConfig',
 ]
@@ -51,6 +53,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.vk.VKontakteOpenAPI',          # бекенд авторизации через ВКонтакте
+    'social_core.backends.vk.VKOAuth2', 
+    'django.contrib.auth.backends.ModelBackend', # бекенд классической аутентификации, чтобы работала авторизация через обычный логин и пароль
+)
+
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
@@ -64,6 +72,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -77,6 +87,7 @@ TEMPLATES = [
     }
 
 ]
+
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
@@ -145,3 +156,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'')
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# SOCIAL_AUTH_VK_OPENAPI_APP_ID = "7134193"
+# SOCIAL_AUTH_VK_APP_KEY = "7134193"
+
+# SOCIAL_AUTH_VK_APP_SECRET = '0FQRBO9G9UBLGZvpN4nO'
+# SOCIAL_AUTH_VK_OPENAPI_APP_ID = "7134193"
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = '7134193'
+SOCIAL_AUTH_VK_OAUTH2_SECRET = '0FQRBO9G9UBLGZvpN4nO'
+
+# SOCIAL_AUTH_VK_APP_USER_MODE = 2

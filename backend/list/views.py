@@ -27,7 +27,7 @@ def post_detail(request, slug):
     template = "post_detail.html"
     obj = get_object_or_404(models.Post, slug__iexact = slug)
     context = {
-            "post": obj,
+            "object": obj,
             "have_access":obj.have_access(request.user, raise_403=False)
             }
 

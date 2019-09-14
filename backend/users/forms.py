@@ -23,6 +23,7 @@ class CustomUserCreationForm(UserCreationForm):
                 "is_local_admin",
                 "photo",
                 )
+
         
         
 

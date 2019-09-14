@@ -50,6 +50,10 @@ class CustomUser(AbstractUser):
     def get_review_url(self):
         return reverse('user_review', kwargs={"id": self.id})
 
+    def save(self, *args, **kwargs):
+        
+        super().save(*args, **kwargs)
+
 
 
 
@@ -83,4 +87,7 @@ class Review(models.Model):
 
 
     def __str__(self):
-        return f"{self.user.username} : {self.rating}"
+        try:
+            return f"{self.user.username} : {self.rating}"
+        except:
+            return f"NONEUSER : {self.rating}"

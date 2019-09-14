@@ -23,6 +23,7 @@ from django.views.generic import RedirectView
 
 
 urlpatterns = [
+    path('', include('social_django.urls')),
     path('admin/', admin.site.urls),
     path('list/', include('list.urls')),    
     path('accounts/', include('users.urls')),

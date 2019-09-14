@@ -19,7 +19,6 @@
 
     </div>
 
-
 {% endblock %}
 
 
@@ -28,5 +27,10 @@
 {% if user.is_local_admin or user.is_staff %}
     <a href="{% url 'post_create' %}" class="uk-icon-button nav-button" uk-icon="icon: plus; ratio: 2">  </a>
 {% endif %}
+
+{% endblock %}
+
+
+{% block script %}
 
 {% endblock %}

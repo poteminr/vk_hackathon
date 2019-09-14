@@ -1,31 +1,83 @@
 {% extends "base_generic.html" %}
 
 {% block head %}
-
-{% endblock %}
-
-{% block title %}
-    <header class="d-flex flex-column align-items-center uk-margin-bottom uk-text-large">
-        <div class="uk-text-justify">
-            <h1 class="uk-text-uppercase">Список активных предложений</h1>
-        </div>
-    </header>
+	<script src="https://api-maps.yandex.ru/2.1/?apikey=2e7fb18f-14f5-4864-a7e3-087af6d50883&lang=ru_RU" type="text/javascript"> </script>
 {% endblock %}
 
 {% block content %}
-
-    <div class="container">
-
-        
-        {% include 'includes/card.html' %}
-        
-
+<div class="container" style="width: 70vw">
+<div class="uk-child-width-1-2@m" uk-grid>
+    <div>
+        <div class="uk-card uk-card-primary" style="background-color:{{ user_color }}">
+            {% if user == object %}
+                <div class="uk-card-badge uk-label" style="background-color:{{ user_color }}"> <a href="{{ object.get_update_url}}">ИЗМЕНИТЬ</a> </div>
+            {% endif %}
+            <div class="uk-card-media-top uk-cover-container uk-width-1-1">
+                <img src="{{ object.image.url }}" alt="" uk-cover>
+                <canvas width="600" height="400"></canvas>
+            </div>
+            <div class="uk-card-body">
+                <h3 class="uk-card-title">{{object.title}}</h3>
+                <p>{{object.text}}</p>
+                <p>Создано: {{object.created_date}}</p>
+            </div>
+        </div>
     </div>
+    <div>
+        <div class="uk-card uk-card-default">
+                <div id="map" style="width: 600px; height: 400px"></div>
 
+            </div>
+        </div>
+    </div>
+</div>
 
+</div>
+ 
 {% endblock %}
 
+{% block script %}
+<script type="text/javascript">
 
-{% block buttons %}
+ymaps.ready(function () {
+    var myMap = new ymaps.Map('map', {
+        center: [55.0368028,82.9072054],
+        zoom: 13,
+        // Добавим кнопку для построения маршрутов на карту.
+        controls: ['routeButtonControl']
+    });
 
+    var control = myMap.controls.get('routeButtonControl');
+
+    // Зададим координаты пункта отправления с помощью геолокации.
+    control.routePanel.geolocate('from');
+
+    // Откроем панель для построения маршрутов.
+    control.state.set('expanded', true);
+
+	    // Зададим состояние панели для построения машрутов.
+		control.routePanel.state.set({
+        // Тип маршрутизации.
+        type: 'masstransit',
+        // Выключим возможность задавать пункт отправления в поле ввода.
+        fromEnabled: false,
+        // Адрес или координаты пункта отправления.
+        from: 'Москва, Льва Толстого 16',
+        // Включим возможность задавать пункт назначения в поле ввода.
+        toEnabled: true,
+        // Адрес или координаты пункта назначения.
+        to: [56.465445, 84.948928],
+    });
+
+    // Зададим опции панели для построения машрутов.
+    control.routePanel.options.set({
+        // Запрещаем показ кнопки, позволяющей менять местами начальную и конечную точки маршрута.
+        allowSwitch: false,
+        // Включим определение адреса по координатам клика.
+        // Адрес будет автоматически подставляться в поле ввода на панели, а также в подпись метки маршрута.
+        reverseGeocoding: true,
+        // Зададим виды маршрутизации, которые будут доступны пользователям для выбора.
+    });
+});
+</script>
 {% endblock %}

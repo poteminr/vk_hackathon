@@ -79,7 +79,7 @@ class ReviewCreate(generic.View):
         if filled_form.is_valid():
             upd_instance = filled_form.save()
 
-            return redirect('/')
+            return redirect(obj)
         return render(request, self.template, context = {"form" : filled_form, "obj":obj})
 
 
