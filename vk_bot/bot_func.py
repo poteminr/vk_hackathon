@@ -1,6 +1,6 @@
 import re
 import vk
-TOKEN = "bbfbcbefbbfbcbefbbfbcbef3ebb971c09bbbfbbbfbcbefe680eafe0e533f85630e7c61"
+TOKEN = "TOKEN"
 session = vk.Session(access_token=TOKEN)
 vk_api = vk.API(session)
 
