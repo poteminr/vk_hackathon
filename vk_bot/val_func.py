@@ -1,6 +1,6 @@
 import re
 import vk
-TOKEN = "TOKEN"
+TOKEN = "APP_KEY"
 session = vk.Session(access_token=TOKEN)
 vk_api = vk.API(session)
 
@@ -8,7 +8,7 @@ def val_number(phone_nuber):
     pattern = re.compile("^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$", re.IGNORECASE)
     return pattern.match(phone_nuber) is not None
 
-def check_date(date:str):
+def check_date(date):
     if len(date) == 10:
         if date[2] == "." and date[5] == ".":
             return True

@@ -1,49 +1,14 @@
-import vk_api
-from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
-from vk_api.utils import get_random_id
-from keyboards import keyboard, keyboard_reg, keyboard_change, keyboard_name
-import pickle
-import os
-import json
-import bot_func as bf
+from keyboards import keyboard_start, keyboard_reg, keyboard_change, keyboard_name
+import val_func as vf
+from bot_functions import * 
+
+
 user_metadata = {}
-
-TOKEN = "KEY"
-GROUP_ID = 186480144
-
-vk_session = vk_api.VkApi(token=TOKEN)
-
-longpoll = VkBotLongPoll(vk_session, GROUP_ID)
-
-
-
-send = "messages.send"
-
-def send_message(user_id, text, keyboard_type, add_keyboard=True):
-    if add_keyboard:
-        vk_session.method(send, {"peer_id": user_id, "message": text,
-        'keyboard': keyboard_type, "random_id": get_random_id()})
-    else:
-        vk_session.method(send, {"peer_id": user_id, "message": text,
-         "random_id": get_random_id()})
-
-
-def get_event():
-    for event in longpoll.listen():
-        if event.type == VkBotEventType.MESSAGE_NEW:
-            user_id = event.obj.from_id
-            message_text = event.obj.text
-            return user_id, message_text
-
-def event_proccesing(text, keyboard_type):
-    user_id, message_text = get_event()
-    send_message(user_id, text, keyboard_type)
-    return user_id, message_text
 
 while True:
     user_id, message_text = get_event()
     if message_text == "Начать":
-        profile_name = bf.uid_to_name(user_id)
+        profile_name = vf.uid_to_name(user_id)
         text = f"Взять имя из профиля - {profile_name} ?"
         send_message(user_id, text, keyboard_name)
 
@@ -59,27 +24,14 @@ while True:
         user_id, message_text = get_event()
         USER_FIO = message_text
 
-        
-        text = "Вы подтверждает ввод данных?"
-        send_message(user_id, text, keyboard_reg)
-        user_id, message_text = get_event()
-
-        while message_text != "Подтвердить информацию о себе":
-            text = "Введите свое ФИО"
-            send_message(user_id, text, keyboard_reg, add_keyboard=False)
-            user_id, message_text = get_event()
-            USER_FIO = message_text
-
-            text = "Вы подтверждает ввод данных?"
-            send_message(user_id, text, keyboard_reg)
-            user_id, message_text = get_event()
+        q_text = "Введите свое ФИО"
+        USER_FIO = confirm_action(user_id, q_text, keyboard_reg, USER_FIO)
             
 
     user_metadata['FIO'] = USER_FIO
     user_metadata['vk_link'] = f"https://vk.com/id{user_id}"
 
-    text = "Информация сохранена"
-    send_message(user_id,text, keyboard_reg, add_keyboard=False)
+    message_saved(user_id)
 
     # О себе
     text = "Пожалуйста, напишите развернуто о себе."
@@ -87,28 +39,12 @@ while True:
     user_id, message_text = get_event()
     ABOUT_USER = message_text
 
-    text = "Вы подтверждает ввод данных?"
-    send_message(user_id,text, keyboard_reg)
-
-    user_id, message_text = get_event()
-
-    while message_text != "Подтвердить информацию о себе":
-        text = "Пожалуйста, расскажите о себе"
-        send_message(user_id, text, keyboard_reg, add_keyboard=False)
-        user_id, message_text = get_event()
-        ABOUT_USER = message_text
-
-        text = "Вы подтверждает ввод данных?"
-        send_message(user_id, text, keyboard_reg)
-        user_id, message_text = get_event()
+    q_text = "Пожалуйста, расскажите о себе"
+    ABOUT_USER = confirm_action(user_id, q_text, keyboard_reg, ABOUT_USER)
 
     user_metadata['about_user'] = ABOUT_USER
 
-    text = "Информация сохранена"
-    send_message(user_id,text, keyboard_reg, add_keyboard=False)
-
-
-
+    message_saved(user_id)
 
     # Номер телефона
     text = "Введите номер телефона"
@@ -118,7 +54,7 @@ while True:
     user_id, message_text = get_event()
     USER_NUMBER = message_text
 
-    while not bf.val_number(message_text):
+    while not vf.val_number(message_text):
         text = "Введите верный номер телефона"
         send_message(user_id, text, keyboard_reg, add_keyboard=False)
 
@@ -128,10 +64,7 @@ while True:
 
     user_metadata["phone_number"] = USER_NUMBER
 
-    text = "Информация сохранена"
-    send_message(user_id,text, keyboard_reg, add_keyboard=False)
-
-
+    message_saved(user_id)
 
     # Дата рождения
     text = "Введите дату своего рождения в формате: 01.01.1970"
@@ -140,19 +73,16 @@ while True:
     user_id, message_text = get_event()
     USER_BIRTH = message_text
 
-    while not bf.check_date(message_text):
+    while not vf.check_date(message_text):
         text = "Введите дату рождения в соответствии с форматом"
-        send_message(user_id, text, keyboard, add_keyboard=False)
+        send_message(user_id, text, keyboard_start, add_keyboard=False)
 
         user_id, message_text = get_event()
         USER_BIRTH = message_text
 
     user_metadata["birthday"] = USER_BIRTH
 
-    text = "Информация сохранена"
-    send_message(user_id,text, keyboard, add_keyboard=False)
-
-
+    message_saved(user_id)
 
     name = user_metadata['FIO']
     user_info = user_metadata['about_user']
@@ -170,11 +100,7 @@ while True:
 
     Ожидайте подтверждения администратора
     """
-    send_message(user_id,last_text, keyboard)
 
-    path = "{}.json".format(user_id)
+    send_message(user_id,last_text, keyboard_start)
 
-    if not os.path.exists(path):
-        with open(path, "w") as write_file:
-            json.dump(user_metadata, write_file)
-
+    save_userdata(user_id, user_metadata)
