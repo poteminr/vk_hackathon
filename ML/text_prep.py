@@ -1,13 +1,10 @@
-import pandas as pd
-import scipy as sc
 import nltk
 from nltk.corpus import stopwords
 import re
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem.snowball import SnowballStemmer
 
-
-class TextPreproc(object):
+class TextPreproc:
     """
     Класс для препроцессинга текста
     """
