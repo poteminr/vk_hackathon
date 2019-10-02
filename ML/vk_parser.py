@@ -7,7 +7,6 @@ TOKEN = "KEY"
 session = vk.Session(access_token=TOKEN)
 vk_api = vk.API(session)
 
-vk_api.users.get()
 # target init params
 GROUP_ID = 78280187
 
