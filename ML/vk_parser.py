@@ -3,7 +3,7 @@ import vk
 from time import sleep
 from tqdm import tqdm_notebook
 # parser init params
-TOKEN = "bbfbcbefbbfbcbefbbfbcbef3ebb971c09bbbfbbbfbcbefe680eafe0e533f85630e7c61"
+TOKEN = "KEY"
 session = vk.Session(access_token=TOKEN)
 vk_api = vk.API(session)
 
